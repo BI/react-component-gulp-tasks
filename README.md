@@ -6,7 +6,7 @@ This package provides common gulp tasks for building react components with:
 * Browserify for transforming JSX and creating distribution builds
 * Watchify for automatic, efficient rebundling on file changes
 * Connect for serving examples during development, with live-reload integration
-* LESS stylesheets for examples
+* LESS/Sass stylesheets for examples
 * Publishing examples to Github Pages
 * Publishing packages to npm and bower
 
@@ -23,7 +23,7 @@ The tasks assume you are following the following conventions for your project:
 * A standalone package will be published to a dist folder (for Bower)
 * Examples consist of
 	* Static file(s) (e.g. html, images, etc)
-	* One or more stylesheets to be generated with LESS
+	* One or more stylesheets to be generated with LESS/Sass
 	* One or more scripts to be bundled with Browserify
 * Examples will be packaged into an examples dist folder, and published to github pages
 
@@ -140,6 +140,36 @@ var taskConfig = {
 };
 
 initGulpTasks(gulp, taskConfig);
+
+```
+
+#### Sass instead of Less
+
+If your project uses Sass instead of Less, use the same syntax but with `sass` instead of `less`.
+
+```javascript
+var taskConfig = {
+
+	component: {
+		name: 'MyComponent',
+		dependencies: [ /* ... */ ],
+		sass: {
+			path: 'sass',
+			entry: 'my-component.scss'
+		}
+	},
+
+	example: {
+		src: 'example/src',
+		dist: 'example/dist',
+		files: [ /* ... */ ],
+		scripts: [ /* ... */ ],
+		sass: [
+			'app.scss'
+		]
+	}
+
+};
 
 ```
 

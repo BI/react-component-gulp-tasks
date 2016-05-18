@@ -3,6 +3,7 @@ var browserify = require('browserify');
 var del = require('del');
 var gutil = require('gulp-util');
 var less = require('gulp-less');
+var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var shim = require('browserify-shim');
 var source = require('vinyl-source-stream');
@@ -45,6 +46,17 @@ module.exports = function (gulp, config) {
 		gulp.task('build:dist:css', ['clean:dist'], function () {
 			return gulp.src(config.component.less.path + '/' + config.component.less.entry)
 				.pipe(less())
+				.pipe(rename(config.component.pkgName + '.css'))
+				.pipe(gulp.dest('dist'))
+				.pipe(rename(config.component.pkgName + '.min.css'))
+				.pipe(minifyCSS())
+				.pipe(gulp.dest('dist'))
+		});
+		buildTasks.push('build:dist:css');
+	} else if (config.component.sass && config.component.sass.entry) {
+		gulp.task('build:dist:css', ['clean:dist'], function () {
+			return gulp.src(config.component.sass.path + '/' + config.component.sass.entry)
+				.pipe(sass())
 				.pipe(rename(config.component.pkgName + '.css'))
 				.pipe(gulp.dest('dist'))
 				.pipe(rename(config.component.pkgName + '.min.css'))
